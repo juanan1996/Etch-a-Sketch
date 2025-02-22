@@ -11,7 +11,7 @@ styleCss.sheet.insertRule('#container { display: flex ; flex-wrap: wrap; width: 
 
 styleCss.sheet.insertRule('#container div {outline: 1px solid salmon; }', 4);
 
-styleCss.sheet.insertRule('#container div:hover {background-color: #3498db; }', 5);
+styleCss.sheet.insertRule('#container div:hover {background-color: #3498db !important; }', 5);
 
 let page = document.createElement("div");
 page.id = "page";
@@ -44,11 +44,20 @@ container.id = "container"
 function createGrid(x) {
     for (i = 0; i < x * x; i++) {
         let content = document.createElement("div");
-        content.style.backgroundColor
+        let colorSquareNumber = `0x${Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0")}`;
+        content.style.backgroundColor = "#" + colorSquareNumber.slice(2);
         container.append(content);
+        let brightness = 1
+
+        content.addEventListener("click", () => {
+            brightness = brightness - 0.1
+            content.style.filter = "brightness(" + brightness + ")";
+            // console.log(brightness)
+        })
     }
     styleCss.sheet.insertRule('#container div {outline: 1px solid salmon;flex: 0 1 calc(100vw/' + x + '); height: calc(95vh/' + x + ')}', 4);
 }
+
 function resetGrid() {
     container.innerHTML = "";
     styleCss.sheet.deleteRule(4)
